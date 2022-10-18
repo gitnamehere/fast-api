@@ -1,0 +1,16 @@
+#Example schemas.py
+#TODO: Add password hashing via OAuth2
+
+import pydantic as Pydantic
+import datetime as DateTime
+
+class BaseUser(Pydantic.BaseModel):
+    username: str
+    email: str
+
+class User(BaseUser):
+    id: int
+    date_created: DateTime.datetime
+
+class CreateUser(BaseUser):
+    pass
