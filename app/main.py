@@ -1,3 +1,4 @@
+#Main FastAPI app file
 from typing import Union, TYPE_CHECKING
 from fastapi import FastAPI, Depends
 import sqlalchemy.orm.session as Session
@@ -12,6 +13,7 @@ if TYPE_CHECKING:
 
 app = FastAPI(title="FastAPI, Docker, OAuth2, and PostgreSQL exercise")
 
+#standard Hello World route
 @app.get("/")
 def read_root():
     return {"Hello": "World"}
@@ -25,6 +27,7 @@ async def create_user(user: Schemas.CreateUser, db: Session = Depends(get_db)):
     print("User created")
     return user
 
+#get a user by id
 @app.get("/users/id/{user_id}")
 async def get_user_by_id(user_id: int, db: Session = Depends(get_db)):
     try:
@@ -32,6 +35,7 @@ async def get_user_by_id(user_id: int, db: Session = Depends(get_db)):
     except:
         return "User not found or Internal Server Error"
 
+#get every user in the database
 @app.get("/users/all/")
 async def get_all_users(db: Session = Depends(get_db)):
     try:

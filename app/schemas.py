@@ -1,4 +1,5 @@
-#Example schemas.py
+#This file is used to verify the types of the data being passed to the database
+
 #TODO: Add password hashing via OAuth2
 
 import pydantic as Pydantic
