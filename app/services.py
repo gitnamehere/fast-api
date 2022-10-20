@@ -4,8 +4,9 @@ import database as Database
 import models as Models
 
 #Create a table (if it doesn't exist) based on the models.py file
-def create_table():
-    return Database.Base.metadata.create_all(bind=Database.engine)
+
+#Band aid fix for the database not being created on startup
+Database.Base.metadata.create_all(bind=Database.engine)
 
 #Access the database
 def get_db():
