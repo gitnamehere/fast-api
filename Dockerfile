@@ -8,7 +8,7 @@ ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
 #Set Python path
-ENV PYTHONPATH "${PYTHONPATH}:/app"
+ENV PYTHONPATH "${PYTHONPATH}:/src"
 
 #Install dependencies
 RUN pip install --upgrade pip
@@ -18,4 +18,4 @@ RUN pip install -r requirements.txt
 #Copy the project
 COPY . .
 
-WORKDIR /app/app
+WORKDIR /app/src
