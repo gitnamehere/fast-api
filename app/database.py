@@ -4,7 +4,11 @@ import sqlalchemy as SQL
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
-#Change (USER) to your username, (PASSWORD) to password, and (DATABASE NAME) to your database name 
+#Change (USER) to your username, (PASSWORD) to password, (HOST) to host, and (DATABASE NAME) to your database name 
+#If you are using Docker, change (HOST) to the Database container name, such as "database" as specified in the docker-compose.yml file.
+#DATABASE_URL = "postgresql://(USER):(PASSWORD)@(HOST):5432/(DB NAME)"
+
+#example
 DATABASE_URL = "postgresql://postgres:password@database:5432/fastapi_db"
 
 engine = SQL.create_engine(DATABASE_URL)
