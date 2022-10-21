@@ -17,4 +17,11 @@ class User(BaseUser):
         orm_mode = True
 
 class CreateUser(BaseUser):
-    pass
+    hashed_password: str
+
+class Token(Pydantic.BaseModel):
+    access_token: str
+    token_type: str
+
+class TokenData(Pydantic.BaseModel):
+    username: str | None = None

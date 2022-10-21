@@ -11,5 +11,6 @@ class User(Base):
     __tablename__ = "users"
     id = SQL.Column(SQL.Integer, primary_key=True, index=True)
     username = SQL.Column(SQL.String, unique=True, index=True)
+    hashed_password = SQL.Column(SQL.String)
     email = SQL.Column(SQL.String, unique=True, index=True)
     date_created = SQL.Column(SQL.DateTime, default=DateTime.datetime.utcnow)
