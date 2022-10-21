@@ -1,9 +1,27 @@
-
 services: 
   web:
     build: .
-    command: python -m uvicorn app.main:app --reload --host 0.0.0.0
+    command: python -m uvicorn app.main:app --reload
     volumes:
       - .:/app
     ports:
       - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql://postgres:password@database:5432/fastapi_db
+    depends_on:
+      - database
+    
+ #ADDING DB
+  database:
+    image: postgres:13.0-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=fastapi_db
+    ports:
+      - "5432:5432"
+
+volumes:
+  postgres_data:

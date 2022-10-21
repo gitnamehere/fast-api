@@ -13,5 +13,8 @@ class User(BaseUser):
     id: int
     date_created: DateTime.datetime
 
+    class Config:
+        orm_mode = True
+
 class CreateUser(BaseUser):
     pass
