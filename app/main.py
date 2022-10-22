@@ -16,27 +16,12 @@ from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from jose import JWTError, jwt
 from passlib.context import CryptContext
 
-SECRET_KEY = "151087c62cbc70bb668cdedf5dab5452e3d79ffdd55317732450dcecc60804f7"
-ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 30
-
 app = FastAPI(title="FastAPI, Docker, OAuth2, and PostgreSQL exercise")
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/token")
 
 @app.post("/api/token", response_model=Schemas.Token)
 async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(Database.get_db)):
-    user = Auth.authenticate_user(form_data.username, form_data.password, db)
-    if not user:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Incorrect username or password",
-            headers={"WWW-Authenticate": "Bearer"},
-        )
-    access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
-    access_token = Auth.create_token(
-        data={"sub": user.username}, expires_delta=access_token_expires
-    )
-    return {"access_token": access_token, "token_type": "bearer"}
+    return Auth.login_for_access_token(form_data, db)
 
 @app.get("/users/me/")
 async def read_users_me(current_user: User = Depends(Auth.get_current_user)):
