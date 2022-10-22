@@ -19,6 +19,20 @@ class User(BaseUser):
 class CreateUser(BaseUser):
     hashed_password: str
 
+class BaseMessage(Pydantic.BaseModel):
+    text: str
+
+class Message(BaseMessage):
+    id: int
+    date_created: DateTime.datetime
+
+    class Config:
+        orm_mode = True
+
+class CreateMessage(BaseMessage):
+    user_id: int
+
+
 class Token(Pydantic.BaseModel):
     access_token: str
     token_type: str
