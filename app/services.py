@@ -28,8 +28,7 @@ def get_user_by_email(email: str, db: Session):
     return db.query(Models.User).filter(Models.User.email == email).first()
 
 def get_user_by_username(username: str, db: Session):
-    user = db.query(Models.User).filter(Models.User.username == username).first()
-    return user
+    return db.query(Models.User).filter(Models.User.username == username).first()
 
 def get_all_users(db: Session, page: int = 0, limit: int = 100):
     return db.query(Models.User).offset(page).limit(limit).all()
