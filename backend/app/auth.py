@@ -12,9 +12,11 @@ from models import User
 from schemas import Token, TokenData
 from datetime import datetime, timedelta
 
+from config import settings as Settings
+
 #Generate a new secret key with the following command:
 #openssl rand -hex 32
-SECRET_KEY = "SECRET_KEY"
+SECRET_KEY = Settings.secret_key
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 10
 
