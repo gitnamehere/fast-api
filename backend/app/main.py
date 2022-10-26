@@ -2,6 +2,7 @@
 from http.client import HTTPException
 from typing import Union, TYPE_CHECKING
 from fastapi import FastAPI, Depends, HTTPException, status
+from fastapi.middleware.cors import CORSMiddleware
 import sqlalchemy.orm.session as Session
 from pydantic import BaseModel
 import database as Database
@@ -14,6 +15,21 @@ import auth as Auth
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 
 app = FastAPI(title="FastAPI, Docker, OAuth2, and PostgreSQL exercise")
+
+origins = [
+    "http://localhost",
+    "http://localhost:3000",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/token")
 
 @app.post("/api/token", response_model=Schemas.Token)
 async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(Database.get_db)):
