@@ -31,14 +31,6 @@ app.add_middleware(
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/token")
 
-@app.post("/api/token", response_model=Schemas.Token)
-async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(Database.get_db)):
-    return Auth.login_for_access_token(form_data, db)
-
-@app.get("api/users/me", response_model=Schemas.User)
-async def read_users_me(current_user: Schemas.User = Depends(Auth.get_current_user)):
-    return current_user
-
 #standard Hello World route
 @app.get("/")
 def read_root():
@@ -48,7 +40,7 @@ def read_root():
 
 #Create
 #Create a new user
-@app.post("/api/users")
+@app.post("/api/users/submit", response_model=Schemas.User)
 async def create_user(user: Schemas.CreateUser, db: Session = Depends(Database.get_db)):
     db_user = Services.get_user_by_email(email=user.email, db=db)
     if db_user != None:
@@ -89,5 +81,15 @@ async def delete_user_by_id(user_id: int, db: Session = Depends(Database.get_db)
     if db_user is None:
         raise HTTPException(status_code=404, detail="User not found")
     return Services.delete_user_by_id(user_id, db)
+
+
+#AUTHENTICATION
+@app.post("/api/token", response_model=Schemas.Token)
+async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(Database.get_db)):
+    return Auth.login_for_access_token(form_data, db)
+
+@app.get("api/users/me", response_model=Schemas.User)
+async def read_users_me(current_user: Schemas.User = Depends(Auth.get_current_user)):
+    return current_user
 
 #I love GitHub Autopilot

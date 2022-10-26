@@ -14,7 +14,7 @@ create_table()
 #CRUD operations for the User table
 #Create
 def create_user(user: Models.User, db: Session):
-    db_user = Models.User(username=user.username, email=user.email, hashed_password=get_password_hash(user.hashed_password))
+    db_user = Models.User(username=user.username, email=user.email, hashed_password=get_password_hash(user.password))
     db.add(db_user)
     db.commit()
     db.refresh(db_user)

@@ -17,7 +17,7 @@ class User(BaseUser):
         orm_mode = True
 
 class CreateUser(BaseUser):
-    hashed_password: str
+    password: str
 
 class BaseMessage(Pydantic.BaseModel):
     text: str
