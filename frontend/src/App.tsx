@@ -3,6 +3,8 @@ import './App.css';
 import {Formik, FormikProps, Form, Field, FieldProps, useFormik} from 'formik';
 import axios from 'axios';
 
+// TODO: Add Yup validation
+
 const FormContainer = () => {
   const onSubmit = (values: any) => {
     console.log(values);
@@ -58,12 +60,23 @@ const FormContainer = () => {
   );
 }
 
+function devStuff() {
+  return (
+    <div>
+      <h1>not so secret development stuff</h1>
+      <button><a href="http://localhost:8000/docs">FastAPI Docs</a></button>
+      <button><a href="http://localhost:8000/api/users/all">All Users in Database</a></button>
+    </div>
+  )
+}
+
 function App() {
   return (
     <div className="App">
       <h1>Extremely minimalistic form for the purposes of learning, development, testing.</h1>
       <h2>Sign Up</h2>
       <FormContainer />
+      {devStuff()}
     </div>
   );
 }
