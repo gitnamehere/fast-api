@@ -7,13 +7,14 @@ import axios from 'axios';
 
 const FormContainer = () => {
   const onSubmit = (values: any) => {
-    console.log(values);
     axios.post('http://localhost:8000/api/users/submit', values)
       .then((response) => {
         console.log(response);
+        alert("Form submitted!");
       })
       .catch((error) => {
         console.log(error);
+        alert("Failed to submit form.");
       });
   };
 
@@ -24,7 +25,7 @@ const FormContainer = () => {
       email: ''
     },
     validateOnBlur: true,
-    onSubmit: values => {
+    onSubmit: values => {    
       onSubmit(values);
     }
   });
@@ -60,6 +61,67 @@ const FormContainer = () => {
   );
 }
 
+interface LogInProps {
+  username: string;
+  password: string;
+}
+
+const LogInContainer = () => {
+
+  const onSubmit = (values: LogInProps) => {
+    axios.post('http://localhost:8000/api/token', values, {headers: {'Content-Type': 'application/x-www-form-urlencoded'}, withCredentials: true})
+      .then((response) => {
+        console.log(response);
+        alert("Logged in!\n(DEV) Access Token:\n" + response.data.access_token);
+      })
+      .catch((error) => {
+        if (error.response) {
+          if (error.response.status === 401) {
+            alert("Invalid username or password.");
+          } else {
+            alert("Failed to submit form.");
+          }
+        } else {
+          console.log(error);
+          alert("Failed to submit form.");
+        }
+    });
+  };
+
+  const formik = useFormik({
+    initialValues: {
+      username: '',
+      password: '',
+    },
+    validateOnBlur: true,
+    onSubmit: (values: LogInProps) => {
+      onSubmit(values);
+    }
+  });
+
+  return (
+    <form onSubmit={formik.handleSubmit} className="form">
+      <input
+        id="username"
+        placeholder="Username"
+        name="username"
+        type="username"
+        onChange={formik.handleChange}
+        value={formik.values.username}
+      />
+      <input
+        id="password"
+        placeholder='Password'
+        name="password"
+        type="password"
+        onChange={formik.handleChange}
+        value={formik.values.password}
+      />
+      <button type="submit">Submit</button>
+    </form>
+  );
+}
+
 function devStuff() {
   return (
     <div>
@@ -73,9 +135,11 @@ function devStuff() {
 function App() {
   return (
     <div className="App">
-      <h1>Extremely minimalistic form for the purposes of learning, development, testing.</h1>
+      <h1>Almost extremely minimalistic form for the purposes of learning, development, and testing.</h1>
       <h2>Sign Up</h2>
       <FormContainer />
+      <h2>Log In</h2>
+      <LogInContainer />
       {devStuff()}
     </div>
   );
